@@ -69,7 +69,7 @@ mini_superstore_analytics/
 ├── reports/
 │   └── figures/
 │       ├── yearly_sales_profit_trend.png
-│       ├── top5_profitable_products.png
+│       ├── top5_products.png
 │       ├── category_region_heatmap.png
 │       └── discount_vs_profit.png
 ├── load_data.py
