@@ -62,7 +62,7 @@ CREATE TABLE order_items (
         ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
--- Indexes (practical set)
+-- Indexes
 CREATE INDEX IF NOT EXISTS idx_orders_order_date      ON orders(order_date);
 CREATE INDEX IF NOT EXISTS idx_orders_customer_id     ON orders(customer_id);
 CREATE INDEX IF NOT EXISTS idx_customers_region       ON customers(region);
