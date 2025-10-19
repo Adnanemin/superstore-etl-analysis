@@ -1,0 +1,77 @@
+# ============================================================
+# Mini Superstore Analytics Project - .gitignore
+# ============================================================
+
+# --- Python bytecode / cache ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --- Virtual environments ---
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# --- Jupyter notebooks ---
+.ipynb_checkpoints/
+
+# --- SQLite databases ---
+*.db
+*.sqlite
+superstore.db
+
+# --- Reports / Figures (optional: remove if you want to push images) ---
+reports/figures/*.png
+
+# --- Editors / IDE settings ---
+.vscode/
+.idea/
+
+# --- macOS system files ---
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# --- Windows system files ---
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Logs and temp files ---
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# --- Python packaging ---
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# --- Local config files ---
+.env
+*.env
+config.ini
+
+# ============================================================
+# Notes:
+# - 'reports/figures/*.png' prevents large images from bloating the repo.
+# - Remove that line if you want graphs visible on GitHub.
+# - 'superstore.db' is excluded since it can be regenerated from CSV.
+# ============================================================
