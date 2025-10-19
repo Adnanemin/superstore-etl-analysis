@@ -19,10 +19,9 @@ TEXT_COLS = [
     "ship_mode", "customer_id", "customer_name", "segment", "country", "city",
     "state", "postal_code", "region", "product_id", "category", "sub_category", "product_name"
 ]
-NUMERIC_COLS = ["quantity", "discount", "sales"]
+NUMERIC_COLS = ["quantity", "discount", "sales", "profit"]
 DATE_COLS = ["order_date", "ship_date"]
 
-# Set this True if you want a clean reload (avoid UNIQUE conflicts on re-runs)
 RESET_DB = True
 
 # ------------------------ HELPERS -----------------------------
@@ -53,6 +52,7 @@ def read_csv_robust(path: str) -> pd.DataFrame:
             "Category": "string",
             "Sub-Category": "string",
             "Product Name": "string",
+            "Profit": "string",
         },
         quotechar='"',
         escapechar='\\',
@@ -88,21 +88,20 @@ def clean_text(df: pd.DataFrame) -> None:
         df[c] = df[c].astype("string").str.strip()
 
 def parse_dates(df: pd.DataFrame) -> None:
-    # keep as datetime first
-    od = pd.to_datetime(df["order_date"], errors="coerce", format="mixed")
-    sd = pd.to_datetime(df["ship_date"], errors="coerce", format="mixed")
-    # clamp ship_date >= order_date (or keep NaT)
-    sd = sd.where(sd.isna() | (sd >= od), od)
-    df["order_date"] = od
-    df["ship_date"] = sd
+    for col in ["order_date", "ship_date"]:
+        df[col] = pd.to_datetime(df[col], errors="coerce", format="%m/%d/%Y")
+    sd, od = df["ship_date"], df["order_date"]
+    df["ship_date"] = sd.where(sd.isna() | (sd >= od), od)
 
 def normalize_numeric(df: pd.DataFrame) -> None:
     for col in [c for c in NUMERIC_COLS if c in df.columns]:
         df[col] = (
             df[col].astype("string")
             .str.strip()
-            .str.replace("%", "", regex=False)
-            .str.replace(",", ".", regex=False)
+            .str.replace("\u00a0", "", regex=False)  # non-breaking space
+            .str.replace("%", "", regex=False)       # ignore '%'
+            .str.replace(".", "", regex=False)       # thousands separator
+            .str.replace(",", ".", regex=False)      # decimal comma -> dot
         )
         df[col] = pd.to_numeric(df[col], errors="coerce")
 
@@ -146,13 +145,22 @@ def fk_checks(con: sqlite3.Connection) -> None:
         WHERE c.customer_id IS NULL;
     """).fetchone()[0]
     print("Missing order_id in orders table: ", missing_orders)
-    print("Missing product_id in products tables: ", missing_products)
+    print("Missing product_id in products table: ", missing_products)
     print("Missing customer_id in orders table: ", missing_customers)
 
 def print_counts(con: sqlite3.Connection) -> None:
     for t in ("customers", "products", "orders", "order_items"):
-        cnt = con.execute(f"SELECT COUNT(*) FROM {t};").fetchone()[0]
-        print(t, cnt)
+        total = con.execute(f"SELECT COUNT(*) FROM {t};").fetchone()[0]
+        dist  = None
+        if t == "customers":
+            dist = con.execute("SELECT COUNT(DISTINCT customer_id) FROM customers;").fetchone()[0]
+        elif t == "products":
+            dist = con.execute("SELECT COUNT(DISTINCT product_id) FROM products;").fetchone()[0]
+        elif t == "orders":
+            dist = con.execute("SELECT COUNT(DISTINCT order_id) FROM orders;").fetchone()[0]
+        elif t == "order_items":
+            dist = con.execute("SELECT COUNT(DISTINCT row_id) FROM order_items;").fetchone()[0]
+        print(f"{t:12s} total={total:,} distinct={dist:,}")
 
 # -------------------------- PIPELINE -------------------------
 def main():
@@ -163,8 +171,13 @@ def main():
     # clean
     clean_text(df)
     parse_dates(df)
-    normalize_numeric(df)
+    normalize_numeric(df)   # PATCH: profit dahil numeric dönüşüm burada
     df = apply_business_rules(df)
+
+    # küçük bir görünürlük: CSV'de mükerrer row_id var mı?
+    dup_row_id = df["row_id"].duplicated().sum() if "row_id" in df.columns else 0
+    print("Duplicated row_id in CSV:", int(dup_row_id))
+
     ensure_row_id(df)
 
     # dims
@@ -188,11 +201,12 @@ def main():
     # load
     with get_connection(DB_PATH) as con:
         if RESET_DB:
-            # child -> parent order
+            # child -> parent order (FK'lere saygı)
             con.execute("DELETE FROM order_items;")
             con.execute("DELETE FROM orders;")
             con.execute("DELETE FROM products;")
             con.execute("DELETE FROM customers;")
+            con.commit()
 
         to_sql_safe(customers, "customers", con)
         to_sql_safe(products, "products", con)

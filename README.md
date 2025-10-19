@@ -1,138 +1,159 @@
-# 🧮 Mini Superstore Analytics Project
+# 🏪 Mini Superstore Analytics
 
-An end-to-end **retail sales analysis project** built with **SQL and Python** using the popular *Sample Superstore* dataset.  
-The project aims to explore **profitability, discount impact, and regional performance** through data cleaning, relational modeling, SQL queries, and Python visualizations.
+An end-to-end **retail analytics project** built with **Python and SQL**, based on the popular *Sample Superstore* dataset.  
+This repository was created as a **personal learning project** to strengthen data cleaning, relational modeling, and EDA skills.
 
 ---
 
-## 📊 Project Overview
+## 🎯 Project Overview
+A complete **ETL → SQLite → EDA** workflow:
+- Load CSV, clean & normalize with **pandas** (and simple **os** utilities)
+- Persist to a relational **SQLite** schema
+- Explore business questions and generate figures with **Matplotlib** & **Seaborn**
 
-| Component | Description |
-|------------|--------------|
-| **Goal** | Analyze sales and profit trends to identify key business insights for a retail company. |
-| **Dataset** | Sample Superstore (≈10,000 rows, 21 columns) — includes Orders, Products, Customers, and Profit metrics. |
-| **Tools Used** | Python (Pandas, Matplotlib, Seaborn), SQL (SQLite/MySQL), Markdown documentation. |
-| **Focus Areas** | Profitability analysis, discount efficiency, regional & category performance, time trends. |
+> ℹ️ **Note about the database file**
+> This repo **does not include** `superstore.db` and **does not include** your local `venv/`.  
+> Recreate the database locally by running `load_data.py` (instructions below).
 
 ---
 
 ## 🔍 Business Questions
-1. Which are the top 5 most profitable products?  
-2. How does profit margin vary by Category and Region?  
-3. Which customer segment records the highest loss or return rate?  
-4. What is the monthly sales and profit trend?  
-5. How does the discount rate affect profitability?
-
-For more details: [`docs/questions.md`](docs/questions.md)
+1. Which are the **top 5 most profitable products**?  
+2. How does **profit margin** vary by *Category* and *Region*?  
+3. Which **customer segment** records the highest loss/return?  
+4. What is the **yearly sales and profit trend**?  
+5. How does the **discount rate** affect profitability?  
 
 ---
 
 ## 🧱 Database Schema
-The dataset was normalized into 4 main tables:
+Four tables after normalization:
 
-| Table | Key Fields | Description |
-|--------|-------------|-------------|
-| **customers** | customer_id, region, segment | Customer demographics and regions |
-| **products** | product_id, category, sub_category | Product catalog and classification |
-| **orders** | order_id, order_date, ship_date | Order-level details |
-| **order_items** | row_id, sales, profit, discount, quantity | Transaction-level metrics |
+| Table | Description |
+|---|---|
+| `customers` | Customer details, location, segment |
+| `products`  | Product info (category, sub-category) |
+| `orders`    | Order metadata (dates, ship mode, customer) |
+| `order_items` | Line-level metrics (quantity, sales, discount, profit) |
 
-📄 Full schema: [`docs/schema.md`](docs/schema.md)
+📄 Full schema: [`sql/create_tables.sql`](sql/create_tables.sql)
 
 ---
 
 ## ⚙️ Analytical Workflow
-
-1. **Data Preparation:**  
-   - Verified data quality (dates, negative values, duplicates).  
-   - Split dataset into relational tables.
-
-2. **SQL Analysis:**  
-   - Wrote queries to answer each business question.  
-   - Computed KPIs like total sales, profit margin, discount impact.
-
-3. **Python Visualization:**  
-   - Created charts with Matplotlib & Seaborn.  
-   - Saved results as `.png` in `reports/figures/`.
-
-4. **Reporting:**  
-   - Summarized key findings in `reports/mini-report.md`.
-
-Full plan: [`docs/analysis_plan.md`](docs/analysis_plan.md)
-
----
-
-## 📈 Key Performance Indicators (KPIs)
-
-| KPI | Description |
-|-----|--------------|
-| Total Sales | Overall revenue generated |
-| Total Profit | Net earnings after costs |
-| Profit Margin (%) | Profit-to-sales ratio |
-| Average Discount (%) | Average applied discount |
-| Monthly Growth (%) | Month-over-month sales trend |
-| Loss-Making Orders (%) | Share of negative-profit transactions |
-
-Visualization plan: [`docs/metrics_and_charts.md`](docs/metrics_and_charts.md)
+1. **ETL (Python):** read CSV → clean text/date/numeric fields → apply business rules → write to SQLite.  
+2. **EDA (Notebook):** join tables into an analysis-ready `superstore` DataFrame → compute KPIs & answer questions.  
+3. **Reporting:** export charts to `reports/figures/` for GitHub preview.
 
 ---
 
 ## 🖼️ Example Visuals
-
 | Chart | Description |
-|--------|--------------|
-| ![Monthly Trend](reports/figures/monthly_trend.png) | Monthly Sales and Profit Trend |
-| ![Top Products](reports/figures/top5_products.png) | Top 5 Most Profitable Products |
-| ![Category Region Heatmap](reports/figures/category_region_heatmap.png) | Profit Margin by Category and Region |
+|---|---|
+| ![Top 5 Products](reports/figures/top5_profitable_products.png) | Top 5 Most Profitable Products |
+| ![Category–Region Heatmap](reports/figures/category_region_heatmap.png) | Profit Margin by Category & Region |
+| ![Yearly Trend](reports/figures/yearly_sales_profit_trend.png) | Yearly Sales & Profit Trend |
+| ![Discount vs Profit](reports/figures/discount_vs_profit.png) | Impact of Discount Rate on Profitability |
 
 ---
 
 ## 📂 Project Structure
-
-``` 
+```
 mini_superstore_analytics/
-│
 ├── data/
-│   └── superstore.csv              # Raw dataset (Sample Superstore)
-│
-├── docs/                           # Project documentation
-│   ├── questions.md                # 5 business questions + why they matter
-│   ├── schema.md                   # Database schema (tables & relationships)
-│   ├── analysis_plan.md            # Step-by-step analytical roadmap
-│   ├── metrics_and_charts.md       # KPIs and visualization plan (Python-based)
-│   ├── deliverables.md             # List of all outputs and file purposes
-│   └── cv_bullets.md               # Short project summary for CV or portfolio
-│
+│   └── superstore.csv
 ├── sql/
-│   └── answers.sql                 # SQL queries for each business question
-│
+│   └── create_tables.sql
 ├── notebooks/
-│   └── eda.ipynb                   # Python notebook for EDA and visualization
-│
+│   └── eda.ipynb
 ├── reports/
-│   ├── mini-report.md              # Final summary of analysis and insights
-│   └── figures/                    # All generated charts (.png)
-│       ├── monthly_trend.png
-│       ├── top5_products.png
-│       └── category_region_heatmap.png
-│
-└── README.md                       # Main project overview and presentation
-``` 
+│   └── figures/
+│       ├── yearly_sales_profit_trend.png
+│       ├── top5_profitable_products.png
+│       ├── category_region_heatmap.png
+│       └── discount_vs_profit.png
+├── load_data.py
+├── requirements.txt
+├── README.md
+├── schema.md
+└── analysis_plan.md
+```
 
 ---
 
-## 🧾 Deliverables
-See the complete list of files and outputs here:  
-[`docs/deliverables.md`](docs/deliverables.md)
+## 🧩 Tools & Libraries
+- **Python 3.10+**
+- **SQLite 3**
+- **pandas**
+- **matplotlib**
+- **seaborn**
+- **os** (filesystem utilities)
 
 ---
 
-## 💼 Author
+## 🚀 How to Run (Reproducible Setup)
+
+1) **Create a virtual environment & install deps**
+```bash
+python3 -m venv venv
+source venv/bin/activate              # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+2) **Create the SQLite schema**
+```bash
+sqlite3 superstore.db < sql/create_tables.sql
+```
+
+3) **Load data (CSV → SQLite)**
+```bash
+python load_data.py
+```
+> This will (re)generate `superstore.db` locally from `data/superstore.csv`.
+
+4) **Open the EDA notebook**
+```bash
+jupyter notebook notebooks/eda.ipynb
+```
+
+---
+
+## 📝 Git Hygiene (Recommended)
+Add the following to `.gitignore` to keep the repo clean and small:
+```
+venv/
+__pycache__/
+*.sqlite
+*.db
+.DS_Store
+```
+> *We intentionally do **not** commit `venv/` and `superstore.db`.*
+
+---
+
+## 📊 Results (Summary of Insights)
+
+- **Technology** category generates the highest total **sales and profit**, followed by **Furniture** and **Office Supplies**.
+- **Copiers**, **Phones**, and **Accessories** are the **most profitable sub-categories**, while low-margin items like **Envelopes** and **Furnishings** underperform.
+- **East** and **West** regions deliver the strongest **profit margins** (over 18%), while the **South** region remains weakest.
+- Across all segments, **Consumer** customers contribute the most orders but also have the **highest loss rate** (~19% of orders unprofitable).
+- **Profit margin decreases sharply as discount rate increases**, showing that high discounting directly impacts profitability.
+- **Year-over-year trend:** Sales and profits both grow steadily from 2014 to 2017 — indicating strong business growth and improving margins.
+---
+
+## 👤 Author
 **Adnan Emin Nalçacı**  
-Data Analysis Student @ University of Messina  
-📧 Contact: [adnanemin39@gmail.com]  
-🌐 GitHub: [github.com/Adnanemin]
+📧 [adnanemin39@gmail.com](mailto:adnanemin39@gmail.com)  
+🌐 [github.com/Adnanemin](https://github.com/Adnanemin)
 
 ---
 
-✅ *This README provides an overview of the entire project and serves as its main presentation document.*
+## 🪪 License
+This project is open-source under the **MIT License**.
+
+---
+
+### ✅ Notes
+- This repository is for **educational and skill development** purposes.
+- The Sample Superstore data is public/anonymized.
+- Figures in `/reports/figures` are generated by the notebook.
