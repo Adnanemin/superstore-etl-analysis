@@ -50,7 +50,7 @@ Four tables after normalization:
 ## 🖼️ Example Visuals
 | Chart | Description |
 |---|---|
-| ![Top 5 Products](reports/figures/top5_profitable_products.png) | Top 5 Most Profitable Products |
+| ![Top 5 Products](reports/figures/top5_products.png) | Top 5 Most Profitable Products |
 | ![Category–Region Heatmap](reports/figures/category_region_heatmap.png) | Profit Margin by Category & Region |
 | ![Yearly Trend](reports/figures/yearly_sales_profit_trend.png) | Yearly Sales & Profit Trend |
 | ![Discount vs Profit](reports/figures/discount_vs_profit.png) | Impact of Discount Rate on Profitability |
