@@ -131,37 +131,6 @@ __pycache__/
 
 ---
 
-## 📊 Results (Summary of Insights)
-### 1️⃣ Top 5 Most Profitable Products
-- The **most profitable products** are mainly high-value **copiers and electronics** (e.g., Canon and HP copiers).  
-- These products generate significantly higher profits than the rest of the catalog.
-
----
-
-### 2️⃣ Profit Margin by Category and Region
-- **Technology** and **Office Supplies** categories consistently yield **higher profit margins**, especially in the **East** and **West** regions.  
-- **Furniture**, on the other hand, shows the **lowest margins** across all regions, indicating higher costs or discounts.
-
----
-
-### 3️⃣ Sales and Profit by Region
-- The **West region** leads in both **sales** and **profit**, followed by **East** and **Central**.  
-- The **South region** performs the weakest overall, both in revenue and profitability.
-
----
-
-### 4️⃣ Yearly Sales and Profit Trend
-- Both **sales** and **profits** show a clear **upward trend** over the years (2015–2017).  
-- This suggests steady business growth and improving profitability over time.
-
----
-
-### 6️⃣ Discount vs Profit
-- There’s a clear **negative relationship** between discount rate and profit.  
-- Higher discounts often lead to **losses**, showing the importance of controlling discount policies.
-
----
-
 ## 📊 Overall Summary
 The analysis highlights that:
 
