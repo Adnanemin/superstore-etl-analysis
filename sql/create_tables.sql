@@ -34,7 +34,7 @@ CREATE TABLE orders (
     customer_id TEXT NOT NULL,
 
     CHECK (date(order_date) IS NOT NULL),
-    CHECK (ship_date IS NULL OR date(ship_date) IS NOT NULL),
+    CHECK (date(ship_date) IS NOT NULL),
     CHECK (ship_date IS NULL OR date(ship_date) >= date(order_date)),
     CHECK (ship_mode IN ('Standard Class','First Class','Second Class','Same Day')),
 
