@@ -131,6 +131,26 @@ __pycache__/
 
 ---
 
+## 📊 Results (Summary of Insights)
+### Top 5 Most Profitable Products
+- The **most profitable products** are mainly high-value **copiers and electronics** (e.g., Canon and HP copiers).  
+- These products generate significantly higher profits than the rest of the catalog.
+
+---
+
+### Yearly Sales and Profit Trend
+- Both **sales** and **profits** show a clear **upward trend** over the years (2015–2017).  
+- This suggests steady business growth and improving profitability over time.
+
+---
+
+### Discount vs Profit
+- There’s a clear **negative relationship** between discount rate and profit.  
+- Higher discounts often lead to **losses**, showing the importance of controlling discount policies.
+
+---
+---
+
 ## 📊 Overall Summary
 The analysis highlights that:
 
