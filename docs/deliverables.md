@@ -14,9 +14,7 @@ This document lists all final deliverables of the project, including datasets, d
 ## 2️⃣ Documentation
 | File | Description |
 |------|--------------|
-| `docs/questions.md` | Defines 5 key business questions and explains why each is important. |
 | `docs/schema.md` | Describes the relational database schema (tables, fields, and relationships). |
-| `docs/analysis_plan.md` | Outlines the analytical approach for each business question. |
 | `docs/metrics_and_charts.md` | Lists key KPIs and Python-based visualization plans. |
 | `docs/deliverables.md` | (This file) Summary of all outputs and their locations. |
 | `docs/cv_bullets.md` | Optional notes for including this project in a CV or portfolio. |
@@ -52,8 +50,3 @@ This document lists all final deliverables of the project, including datasets, d
 | File | Description |
 |------|--------------|
 | `README.md` | Final project summary for presentation or publication (to be completed last). |
-
----
-
-✅ All deliverables are organized for clarity and reproducibility.  
-The project structure ensures that data, documentation, code, and reports are well-separated and easy to navigate.
