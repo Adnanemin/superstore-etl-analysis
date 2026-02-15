@@ -75,7 +75,6 @@ mini_superstore_analytics/
 ├── load_data.py
 ├── requirements.txt
 ├── README.md
-├── schema.md
 └── analysis_plan.md
 ```
 
